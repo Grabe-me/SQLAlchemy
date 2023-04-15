@@ -21,5 +21,4 @@ book = Table('books', metadata,
 )
 
 
-# metadata.drop_all(bind=engine)
 metadata.create_all(engine)
