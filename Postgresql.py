@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer,\
+from sqlalchemy import create_engine, Column, Integer, \
     String, Table, MetaData, ForeignKey, insert, select
 
 # Set DataBase engine, "echo=True" for console logging
@@ -33,8 +33,8 @@ def get_author_id(name, surname):
             (authors.c.name== name.title()) &
             (authors.c.surname == surname.title())
         )
-    author_tuple = connection.execute(data).fetchone()
-    id = author_tuple[0]
+    author_data = connection.execute(data).fetchone()
+    id = author_data.id         # author_data[0]
     return id
 
 
@@ -67,8 +67,8 @@ insert_multy_authors = connection.execute(
             "surname": "Tolstoy"
         },
         {
-            "name": "Jack",
-            "surname": "London"
+            "name": "Nikolay",
+            "surname": "Gogol"
         }
     ]
 )
@@ -80,8 +80,8 @@ insert_multy_books = connection.execute(
             "author_id": get_author_id('Lev', 'Tolstoy')
         },
         {
-            "title": "Fairy Tales",
-            "author_id": get_author_id('Lev', 'Tolstoy')
+            "title": "Dead souls",
+            "author_id": get_author_id('Nikolay', 'Gogol')
         }
     ]
 )
@@ -89,9 +89,23 @@ insert_multy_books = connection.execute(
 # Saving changes in DataBase
 connection.commit()
 
+
 # Generating SQL-request to get data from 'authors' table (select)
-s = authors.select()
+a = authors.select()
+b = select(books).order_by(books.c.author_id)
 # Getting data with conn by select
-data = connection.execute(s)
-# Extracting data and then printing it
-print(data.fetchall())
+data_a = connection.execute(a)
+data_b = connection.execute(b)
+# Extracting data
+fetch_a = data_a.fetchall()
+fetch_b = data_b.fetchall()
+# Printing formed data
+while fetch_a and fetch_b:
+    fetch_a_pop = fetch_a.pop()
+    fetch_b_pop = fetch_b.pop()
+    print(
+        fetch_a_pop.name,
+        fetch_a_pop.surname,
+        '-->',
+        fetch_b_pop.title
+    )
