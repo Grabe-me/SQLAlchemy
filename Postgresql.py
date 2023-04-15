@@ -1,8 +1,4 @@
 from sqlalchemy import create_engine, Column, Integer, String, Table, MetaData, ForeignKey
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm.session import sessionmaker
-import psycopg2
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 
 engine = create_engine('postgresql://postgres:freedomofthewar@localhost:5432/alchemy', echo=True)
@@ -21,5 +17,4 @@ book = Table('books', metadata,
 )
 
 
-# metadata.drop_all(bind=engine)
 metadata.create_all(engine)
