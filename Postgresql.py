@@ -1,8 +1,4 @@
 from sqlalchemy import create_engine, Column, Integer, String, Table, MetaData, ForeignKey
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm.session import sessionmaker
-import psycopg2
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 
 engine = create_engine('postgresql://postgres:freedomofthewar@localhost:5432/alchemy', echo=True)
@@ -22,3 +18,24 @@ book = Table('books', metadata,
 
 
 metadata.create_all(engine)
+insert_author = author.insert().values(
+    name='Michael',
+    surname='Bulgakov'
+)
+
+connection = engine.connect()
+author_ins = connection.execute(insert_author)
+connection.commit()
+
+
+insert_book = book.insert().values(
+    title='Master and Margaret',
+    author_id=author_ins.inserted_primary_key[0]
+)
+
+book_ins = connection.execute(insert_book)
+connection.commit()
+
+s = author.select()
+data = connection.execute(s)
+print(data.fetchall())
