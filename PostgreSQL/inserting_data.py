@@ -1,6 +1,6 @@
 from sqlalchemy import select, insert
 from Tables import authors, books
-from engine_config import connection, commit
+from engine_config import connection
 
 
 def get_author_id(name, surname):
@@ -64,4 +64,4 @@ insert_multy_books = connection.execute(
 )
 
 # Saving changes in DataBase
-commit()
+connection.commit()
