@@ -6,5 +6,3 @@ engine = create_engine('postgresql://user_name:password@host:port/db_name', echo
 metadata = MetaData()
 # Set connection
 connection = engine.connect()
-# Set commit
-commit = connection.commit()
