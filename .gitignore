@@ -1,1 +1,3 @@
-*.db
+./*.db
+PostgreSQL/*.txt
+PostgreSQL/Postgresql.py
