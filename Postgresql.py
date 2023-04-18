@@ -27,7 +27,7 @@ connection = engine.connect()
 
 
 def get_author_id(name, surname):
-    # Getting id from table'authors' by fullname
+    # Getting id from table 'authors' by fullname
     data = select(authors).\
         where(
             (authors.c.name== name.title()) &
@@ -99,7 +99,7 @@ data_b = connection.execute(b)
 # Extracting data
 fetch_a = data_a.fetchall()
 fetch_b = data_b.fetchall()
-# Printing formed data
+# Printing data
 while fetch_a and fetch_b:
     fetch_a_pop = fetch_a.pop()
     fetch_b_pop = fetch_b.pop()
@@ -109,3 +109,15 @@ while fetch_a and fetch_b:
         '-->',
         fetch_b_pop.title
     )
+
+# Selecting filtered data
+# Generating SQL request with 'where' condition and 'like' fiter
+select_gogol = select(authors).where(authors.c.surname.like("Gog%"))
+# Executing filtered data
+gogol = connection.execute(select_gogol).fetchone()
+# Generating SQL request with 'where' condition
+gogol_book = select(books).where(books.c.author_id == int(gogol.id))
+# Executing data
+dead_souls = connection.execute(gogol_book).fetchone()
+# Console output: The book "Dead souls" was written by Nikolay Gogol.
+print(f'The book "{dead_souls.title}" was written by {gogol.name} {gogol.surname}.')
