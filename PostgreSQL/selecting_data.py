@@ -34,3 +34,8 @@ gogol_book = select(books).where(books.c.author_id == int(gogol.id))
 dead_souls = connection.execute(gogol_book).fetchone()
 # Console output: The book "Dead souls" was written by Nikolay Gogol.
 print(f'The book "{dead_souls.title}" was written by {gogol.name} {gogol.surname}.')
+
+
+select_lev = select(authors.c.name, ).where(authors.c.surname == 'Tolstoy')
+lev = connection.execute(select_lev).fetchone()
+print(lev[0])
