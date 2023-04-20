@@ -42,3 +42,25 @@ with connection.begin() as transaction:
     # Console output:
 
     # My favorite book is "Master and Margaret"
+
+# Try-Except manager
+# Commits all if 'try' block runs correctly
+# 'Except' block raises Rollback
+
+# Setting new transaction
+trans = connection.begin()
+# Generating SQL query to insert new author data
+new_author = authors.insert().values(
+    name='Anton',
+    surname='Chehov'
+)
+# Trying insert new data
+try:
+    connection.execute(new_author)
+    # Commiting transacton
+    trans.commit()
+    # Outputting 'success' console log
+    print('Data added successfully')
+except Exception('Error while inserting data'):
+    # Rolling back transaction and logging out
+    trans.rollback()
