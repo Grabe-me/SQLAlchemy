@@ -1,3 +1,4 @@
 ./*.db
 PostgreSQL/*.txt
 PostgreSQL/Postgresql.py
+PostgreSQL/__pycache__
